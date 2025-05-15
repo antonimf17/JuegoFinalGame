@@ -35,8 +35,6 @@ public class EnemyHealth : MonoBehaviour
         if (currentHealth <= 0)
         {
             currentHealth = 0;
-            deathEffect.SetActive(true);
-            deathEffect.transform.position = transform.position;
             gameObject.SetActive(false);
 
         }
