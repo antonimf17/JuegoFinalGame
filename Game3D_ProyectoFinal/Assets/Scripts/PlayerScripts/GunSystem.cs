@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
+using UnityEngine.UI;
 
 public class GunSystem : MonoBehaviour
 {
@@ -11,6 +13,7 @@ public class GunSystem : MonoBehaviour
     [SerializeField] Transform shootPoint; //Ref a la posición de la cam para disparar
     [SerializeField] RaycastHit hit; //Almacena la informacion del impacto de los raycast
     [SerializeField] LayerMask impactLayer; //Ref a la layer contra la que Si impacata el raycast
+    [SerializeField] GameObject muzzleFlashPrefab;
 
     [Header("Weapon Parameters")]
     public int damage;
@@ -31,6 +34,9 @@ public class GunSystem : MonoBehaviour
     [SerializeField] bool shooting;
     [SerializeField] bool canShoot = true;
     [SerializeField] bool reloading;
+
+    public TextMeshProUGUI ammoDisplay;
+    public GameObject reloadText;
     #endregion
 
     private void Awake()
@@ -46,6 +52,12 @@ public class GunSystem : MonoBehaviour
     void Update()
     {
         InputFlags();
+        if (ammoDisplay != null)
+            ammoDisplay.text = $"{bulletsLeft} / {ammoSize}";
+        if (reloadText != null)
+        {
+            reloadText.SetActive(bulletsLeft == 0 && !reloading);
+        }
     }
 
     void InputFlags()
@@ -57,6 +69,12 @@ public class GunSystem : MonoBehaviour
     }
     void Shoot()
     {
+        if (muzzleFlashPrefab != null)
+        {
+            GameObject flash = Instantiate(muzzleFlashPrefab, shootPoint.position, shootPoint.rotation);
+            Destroy(flash, 1f); // Destruye el efecto después de 1 segundo para no llenar la memoria
+        }
+
         canShoot = false;
         Vector3 direction = fpscam.transform.forward;
 
@@ -80,6 +98,7 @@ public class GunSystem : MonoBehaviour
         }
 
     }
+   
     private void ResetShoot()
     {
         canShoot = true;
@@ -101,6 +120,7 @@ public class GunSystem : MonoBehaviour
         bulletsLeft = ammoSize;
         BulletsShot = 0;
         reloading = false;
+        reloadText?.SetActive(false);
     }
     #region input Methods
     public void OnShoot(InputAction.CallbackContext context)

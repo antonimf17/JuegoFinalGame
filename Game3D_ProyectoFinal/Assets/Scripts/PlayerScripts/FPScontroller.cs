@@ -116,7 +116,7 @@ public class FPScontroller : MonoBehaviour
             Jump();
         }
     }
-    public void OnCrocuh(InputAction.CallbackContext context)
+    public void OnCrouch(InputAction.CallbackContext context)
     {
         if (context.performed)
         { 

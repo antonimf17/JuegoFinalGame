@@ -15,6 +15,8 @@ public class EnemyAiBasic : MonoBehaviour
     public Vector3 walkPoint; //Dirección a la que se moverá la IA si no detecta al target
     [SerializeField] float walkPointRange; //Rango ´máximo de dirección a generar
     bool walkPointset;//Determina si la IA a llegado al objetivo y entoces genera un nuevo objetivo
+    [SerializeField] float walkPointTimeout = 5f; // Tiempo máximo para alcanzar el punto
+    float walkPointTimer; // Cronómetro para medir el tiempo que lleva intentando llegar
 
     [Header("Attack configuration")]
     public float timeBetweenAttacks; //Tiempo de espera entre ataque y ataque (Se suele igualar a la duracción de ataque)
@@ -77,14 +79,26 @@ public class EnemyAiBasic : MonoBehaviour
         }
         else
         {
-            //Si el punto generado es caminable, el agente lo perseguirá 
             agent.SetDestination(walkPoint);
+
+            // Aumenta el cronómetro
+            walkPointTimer += Time.deltaTime;
+
+            // Si llegó al punto
+            if (Vector3.Distance(transform.position, walkPoint) < 1f)
+            {
+                walkPointset = false;
+                walkPointTimer = 0f;
+            }
+
+            // Si no ha llegado en 5 segundos, reinicia punto
+            if (walkPointTimer > walkPointTimeout)
+            {
+                Debug.Log("No se llegó al punto, generando nuevo.");
+                walkPointset = false;
+                walkPointTimer = 0f;
+            }
         }
-
-        //Sistema para que el agente busque un nuevo destino en caso de ya haya llegado al punto actual 
-        Vector3 distanceToWalkPoint = transform.position - walkPoint;
-        if (distanceToWalkPoint.magnitude < 1) walkPointset = false;
-
     }
 
     void SearchWalkPoint()
@@ -102,6 +116,7 @@ public class EnemyAiBasic : MonoBehaviour
         if (Physics.Raycast(walkPoint, -transform.up, 2f, groundLayer))
         {
             walkPointset = true; //Confirmamos que el punto es caminable, por lo que empezará el movimiento
+            walkPointTimer = 0f;
         }
 
 
