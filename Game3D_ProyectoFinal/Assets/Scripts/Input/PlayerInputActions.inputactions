@@ -425,7 +425,7 @@
                 {
                     "name": "",
                     "id": "1aa5ed3a-d1fc-439c-84ae-cd3296cc11b1",
-                    "path": "<Gamepad>/rightTrigger",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
