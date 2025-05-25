@@ -4616,7 +4616,7 @@ MonoBehaviour:
   shootPoint: {fileID: 737628388}
   shootSpeedZ: 5
   shootSpeedY: 0
-  sightRange: 7
+  sightRange: 9
   attackRange: 5
   targetInSightRange: 0
   targetInAttackRange: 0
@@ -12505,7 +12505,7 @@ MonoBehaviour:
   shootPoint: {fileID: 481696007}
   shootSpeedZ: 5
   shootSpeedY: 0
-  sightRange: 7
+  sightRange: 9
   attackRange: 5
   targetInSightRange: 0
   targetInAttackRange: 0
@@ -16114,7 +16114,7 @@ MonoBehaviour:
   shootPoint: {fileID: 2112111932}
   shootSpeedZ: 5
   shootSpeedY: 0
-  sightRange: 7
+  sightRange: 9
   attackRange: 5
   targetInSightRange: 0
   targetInAttackRange: 0
@@ -19965,7 +19965,7 @@ MonoBehaviour:
   shootPoint: {fileID: 1289885096}
   shootSpeedZ: 5
   shootSpeedY: 0
-  sightRange: 7
+  sightRange: 9
   attackRange: 5
   targetInSightRange: 0
   targetInAttackRange: 0
@@ -76283,6 +76283,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6755695319088210494, guid: a088ffda8a6010f4091f019c01c321b3,
         type: 3}
+    - target: {fileID: 1498235925008110895, guid: 01c6de8a7bf3c084d80e74565abe4f2b,
+        type: 3}
+      propertyPath: sightRange
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 2650438527431541813, guid: 01c6de8a7bf3c084d80e74565abe4f2b,
         type: 3}
       propertyPath: m_LocalPosition.x

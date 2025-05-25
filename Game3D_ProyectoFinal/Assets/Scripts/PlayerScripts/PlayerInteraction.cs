@@ -62,7 +62,7 @@ public class PlayerInteraction : MonoBehaviour
      
                 if (TieneTodasLasMarias())
                 {
-                    AbrirPuerta();
+                    AbrirPuertaWin();
                 }
                 else
                 {
@@ -206,6 +206,14 @@ public class PlayerInteraction : MonoBehaviour
         AudioManager.Instance.PlaySFX(3);
         Debug.Log("Puerta abierta, cambiando de escena...");
         SceneManager.LoadScene(nombreSiguienteEscena);
+    }
+    void AbrirPuertaWin()
+    {
+        AudioManager.Instance.PlaySFX(3);
+        Debug.Log("Puerta abierta, cambiando de escena...");
+        SceneManager.LoadScene(nombreSiguienteEscena);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
     }
     bool TieneTodasLasMarias()
     {
