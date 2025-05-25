@@ -131,26 +131,22 @@ public class EnemyAiBasic : MonoBehaviour
 
     void AttackTarget()
     {
-        //Cuando comienza a atacar, el agente se queda quieto (se persigue a si mismo)
+        // El enemigo se queda quieto y mira al jugador
         agent.SetDestination(transform.position);
-        //El agente siempre observa directamente al target
         transform.LookAt(target);
 
         if (!alreadyAttacked)
         {
-            //Si no estamos atacando, se comienza a atacar
-            //Aquí iria el código de ataque a personalizar 
+            // Dirección recta hacia el jugador
+            Vector3 direction = (target.position - shootPoint.position).normalized;
 
-            //En este ejemplo, vamos a generar una bala, referenciar su rigidboy y empujarla por fuerzas
-            Rigidbody rb = Instantiate(Projectile, shootPoint.position, Quaternion.identity).GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * shootSpeedZ, ForceMode.Impulse);
-            //Si es modo catapulta, se añade la siguiente linea
-            //rb.AddForce(transform.up * shootSpeedY, ForceMode.Impulse);
+            // Disparo con Rigidbody
+            Rigidbody rb = Instantiate(Projectile, shootPoint.position, Quaternion.LookRotation(direction)).GetComponent<Rigidbody>();
+            rb.velocity = direction * shootSpeedZ;
+            rb.useGravity = false; // desactiva gravedad si quieres trayectoria recta
 
-            //Se termina el ataque, empieza el cooldown de intervalo de ataque
             alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks); //Vuelve a atacar en el intervalo de tiempo indicado, se suele timear con la animación de ataque
-
+            Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
     }
 

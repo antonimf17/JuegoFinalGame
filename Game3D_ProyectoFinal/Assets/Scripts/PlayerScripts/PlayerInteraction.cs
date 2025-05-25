@@ -203,6 +203,7 @@ public class PlayerInteraction : MonoBehaviour
 
     void AbrirPuerta()
     {
+        AudioManager.Instance.PlaySFX(3);
         Debug.Log("Puerta abierta, cambiando de escena...");
         SceneManager.LoadScene(nombreSiguienteEscena);
     }

@@ -5,48 +5,67 @@ using UnityEngine;
 public class EnemyHealth : MonoBehaviour
 {
     [Header("Health System Configuration")]
-    [SerializeField] int maxHealth;
+    [SerializeField] int maxHealth = 100;
     [SerializeField] int currentHealth;
 
     [Header("Feedback Configuration")]
-    [SerializeField] Material baseMat;
-    [SerializeField] Material damagedMat;
+    [SerializeField] Color damageColor = Color.red;
+    [SerializeField] float flashDuration = 0.1f;
     [SerializeField] GameObject deathEffect;
 
-    MeshRenderer enemyRend;
+    MeshRenderer[] enemyRends;
+    Color[] originalColors;
 
     private void Awake()
     {
-        enemyRend = GetComponent<MeshRenderer>();
-        baseMat = enemyRend.material;
+        enemyRends = GetComponentsInChildren<MeshRenderer>();
+
+        // Guardar el color original de cada renderer
+        originalColors = new Color[enemyRends.Length];
+        for (int i = 0; i < enemyRends.Length; i++)
+        {
+            if (enemyRends[i].material.HasProperty("_Color"))
+                originalColors[i] = enemyRends[i].material.color;
+            else
+                originalColors[i] = Color.white; // Valor por defecto
+        }
+
         currentHealth = maxHealth;
     }
 
-
-
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (currentHealth <= 0)
         {
             currentHealth = 0;
             gameObject.SetActive(false);
-
+            // Aquí puedes instanciar efectos de muerte si quieres
         }
     }
+
     public void TakeDamage(int damage)
     {
+        AudioManager.Instance.PlaySFX(2);
         currentHealth -= damage;
-        enemyRend.material = damagedMat;
-        Invoke(nameof(ResetdamageMaterial), 0.1f);
+        StartCoroutine(FlashDamageColor());
     }
-    void ResetdamageMaterial()
+
+    IEnumerator FlashDamageColor()
     {
-        enemyRend.material = baseMat;
+        // Cambiar a color de daño
+        for (int i = 0; i < enemyRends.Length; i++)
+        {
+            if (enemyRends[i].material.HasProperty("_Color"))
+                enemyRends[i].material.color = damageColor;
+        }
+
+        yield return new WaitForSeconds(flashDuration);
+
+        // Restaurar colores originales
+        for (int i = 0; i < enemyRends.Length; i++)
+        {
+            if (enemyRends[i].material.HasProperty("_Color"))
+                enemyRends[i].material.color = originalColors[i];
+        }
     }
 }

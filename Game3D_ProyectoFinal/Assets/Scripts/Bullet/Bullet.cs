@@ -21,6 +21,10 @@ public class Bullet : MonoBehaviour
         {
             SceneManager.LoadScene(2);
         }
+        if (other.CompareTag("Pared"))
+        {
+            gameObject.SetActive(false);
+        }
       
 
     }

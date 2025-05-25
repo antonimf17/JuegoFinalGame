@@ -69,6 +69,7 @@ public class GunSystem : MonoBehaviour
     }
     void Shoot()
     {
+        AudioManager.Instance.PlaySFX(0);
         if (muzzleFlashPrefab != null)
         {
             GameObject flash = Instantiate(muzzleFlashPrefab, shootPoint.position, shootPoint.rotation);
@@ -106,6 +107,7 @@ public class GunSystem : MonoBehaviour
 
     private void Reload()
     {
+        AudioManager.Instance.PlaySFX(1);
         if (bulletsLeft < ammoSize && !reloading)
         {
             reloading = true;
