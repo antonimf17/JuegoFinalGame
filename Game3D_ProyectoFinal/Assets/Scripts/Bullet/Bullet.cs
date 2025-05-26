@@ -19,7 +19,7 @@ public class Bullet : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene(3);
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
         }
